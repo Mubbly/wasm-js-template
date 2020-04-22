@@ -1,0 +1,15 @@
+# NOTE: Workspaces not fully supported in wasm-pack yet, in 0.10.0 milestones though
+# https://github.com/rustwasm/wasm-pack/milestone/16
+# Instead use make commands
+#
+# Partial support of workspaces in wasm-pack seems to work like this:
+#     If running `wasm-pack target_crate` and the current directory contains a workspace:
+#         * `pkg` directories created into crates
+#         * `target` directory created into workspace
+#         * Uses Cargo.lock of crate not workspace (Seemingly can parallel build?)
+#         * Uses Cargo.toml of workspace for parameters defined there (Example profile)
+[workspace]
+members = [
+    "main_crate",
+    "sub_crate",
+]

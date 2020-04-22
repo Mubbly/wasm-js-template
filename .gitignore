@@ -1,0 +1,10 @@
+**/*.rs.bk
+dist
+package-lock.json
+pkg
+node_modules
+rust/bin
+rust/target
+rust/wasm-pack.log
+rust/Cargo.lock
+.history

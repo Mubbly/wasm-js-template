@@ -1,0 +1,27 @@
+name: ci
+
+# Disabled
+# To enable configure when to run.
+# Example: `on: [push]` will set this workflow to run on every push
+on:
+  push:
+    branches-ignore:
+      - '**' # matches all branches
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Docker setup
+        run: make dsetup
+      - name: Install deps
+        run: make indock cmd=install
+      - name: Lint project
+        run: make indock cmd=lint
+      - name: Check formatting
+        run: make indock cmd=format-check
+      - name: Build project
+        run: make indock cmd=build
+      - name: Run tests
+        run: make indock cmd=test

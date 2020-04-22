@@ -1,0 +1,115 @@
+name: template_ci
+
+on: [push]
+
+jobs:
+  test_rust_env_setup:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest]
+    steps:
+      - uses: actions/checkout@v2
+      - name: Run script
+        run: sh rust_env_setup.sh
+
+  test_template_in_local_env:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os:
+          - ubuntu-latest
+          - macos-latest
+    steps:
+      - name: Pre template env setup
+      # Cargo will build from source, this is great for testing various OS side by side, however is slow.
+      # It would be much faster to manually get the binary for the current platform, example:
+      # curl -L https://github.com/ashleygwilliams/cargo-generate/releases/download/v0.5.0/cargo-generate-v0.4.0-x86_64-unknown-linux-musl.tar.gz | tar xvz
+        run: |
+          rustup default stable
+          cargo install cargo-generate --version 0.5.0 --features vendored-openssl
+      - name: Cargo generate project
+        run: |
+          cargo generate --git https://github.com/Mubbly/wasm-js-template --branch ${GITHUB_REF##*/} --name test_project
+      - name: Run rust env script
+        run: |
+          cd test-project
+          sh rust_env_setup.sh
+      - name: Install deps in local env
+        run: |
+          cd test-project
+          make install
+      - name: Lint project in local env
+        run: |
+          cd test-project
+          make lint
+      - name: Check project formatting in local env
+        run: |
+          cd test-project
+          make format-check
+      - name: Build project in local env
+        run: |
+          cd test-project
+          make build
+      - name: Test project in local env
+        run: |
+          cd test-project
+          make test
+      - name: Start project in local dev
+        run: |
+          cd test-project
+          make start &
+          sleep 10
+          curl -s localhost:8080 | grep -c "<title>My awesome Rust, WebAssembly, Typescript, React, Docker and Webpack application</title>"
+
+  test_template_in_docker_env:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: 
+          - ubuntu-latest
+          # Docker on MacOS runner isn't quite there yet
+          # Source: https://github.community/t5/GitHub-Actions/Is-it-possible-to-install-and-configure-Docker-on-MacOS-runner/td-p/39002
+          # NOTE: The one answer that says it works is just showing the docker client's version
+          # - macos-latest
+    steps:
+      - name: Pre template env setup
+      # Cargo will build from source, this is great for testing various OS side by side however is slow.
+      # It would be much faster to manually get the binary for the current platform, example:
+      # curl -L https://github.com/ashleygwilliams/cargo-generate/releases/download/v0.5.0/cargo-generate-v0.4.0-x86_64-unknown-linux-musl.tar.gz | tar xvz
+        run: |
+          rustup default stable
+          cargo install cargo-generate --version 0.5.0 --features vendored-openssl
+      - name: Cargo generate project
+        run: |
+          cargo generate --git https://github.com/Mubbly/wasm-js-template --branch ${GITHUB_REF##*/} --name test_project
+      - name: Docker setup
+        run: |
+          cd test-project
+          make dsetup
+      - name: Install deps in docker
+        run: |
+          cd test-project
+          make indock cmd=install
+      - name: Lint project in docker
+        run: |
+          cd test-project
+          make indock cmd=lint
+      - name: Check project formatting in docker
+        run: |
+          cd test-project
+          make indock cmd=format-check
+      - name: Build project in docker
+        run: |
+          cd test-project
+          make indock cmd=build
+      - name: Run tests in docker
+        run: |
+          cd test-project
+          make indock cmd=test
+      - name: Start project in docker
+        run: |
+          cd test-project
+          make indock cmd=start &
+          sleep 10
+          curl -s localhost:8080 | grep -c "<title>My awesome Rust, WebAssembly, Typescript, React, Docker and Webpack application</title>"

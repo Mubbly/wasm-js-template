@@ -1,0 +1,17 @@
+FROM ubuntu:latest
+
+# This dockerfile is just for CI
+# It should emulate a setup where nothing of the Rust toolchain is set up
+
+# Basic tooling = make, curl
+# External dependancies = libssl-dev, pkg-config
+# Web tooling = npm
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    make \
+    curl \
+    pkg-config \
+    libssl-dev \
+    npm
+
+COPY rust_env_setup.sh .
+RUN sh rust_env_setup.sh
