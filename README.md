@@ -39,6 +39,7 @@ This template is designed to set up a Javascript / Webassembly hybrid project wi
 # Install docker if it isn't already installed
 curl -fsSL https://get.docker.com -o get-docker.sh \
     && sudo sh get-docker.sh \
+    && rm get-docker.sh
     #
     # Install some utils and VSCode
     && sudo apt-get install make curl \
@@ -61,9 +62,14 @@ curl -fsSL https://get.docker.com -o get-docker.sh \
 #### :apple: MacOS (with brew)
 
 ```bash
-# Install docker if it isn't already installed
-curl -fsSL https://get.docker.com -o get-docker.sh \
-    && sudo sh get-docker.sh \
+# Install docker if it isn't already installed (https://docs.docker.com/docker-for-mac/install/)
+if [ ! "$(command -v docker)" ]; then
+  sudo curl https://download.docker.com/mac/stable/Docker.dmg >> Docker.dmg \
+    && hdiutil attach Docker.dmg \
+    && cp -r /Volumes/Docker/Docker.app ~/Applications/Docker.app \
+    && rm Docker.dmg \
+    && open -a Docker;
+fi \
     #
     # Install some utils and VSCode
     && brew install make curl \
