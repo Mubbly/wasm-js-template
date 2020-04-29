@@ -29,7 +29,7 @@ This template is designed to set up a Javascript / Webassembly hybrid project wi
 
 ## 🚴 Usage
 
-A [single command](https://github.com/Mubbly/wasm-js-template#rocket-single-command-setup) installs all necessary dependencies if they're not already installed and generates a new ready-to-use project (or if you've already done it once, [just generate a new project](https://github.com/Mubbly/wasm-js-template#penguin-apple-if-you-already-have-all-the-dependencies-installed))
+A [single command](https://github.com/Mubbly/wasm-js-template#rocket-single-command-setup) installs all necessary dependencies if they're not already installed and generates a new ready-to-use project (or if you've already done it once, [just generate a new project](https://github.com/Mubbly/wasm-js-template#penguin--apple-if-you-already-have-all-the-dependencies-installed))
 
 :page_with_curl: NOTE: While this template doesn't support Windows specifically, it mostly just depends on some simple UNIX commands. If you can get WSL / MinGW or a similar setup working then this setup can work on Windows too! You'll need to install Docker, Make, curl and VSCode yourself.
 
