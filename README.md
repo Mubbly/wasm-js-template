@@ -29,6 +29,8 @@ This template is designed to set up a Javascript / Webassembly hybrid project wi
 
 ## 🚴 Usage
 
+A [single command](https://github.com/Mubbly/wasm-js-template#rocket-single-command-setup) installs all necessary dependencies if they're not already installed and generates a new ready-to-use project (or if you've already done it once, [just generate a new project](https://github.com/Mubbly/wasm-js-template#penguin-apple-if-you-already-have-all-the-dependencies-installed))
+
 :page_with_curl: NOTE: While this template doesn't support Windows specifically, it mostly just depends on some simple UNIX commands. If you can get WSL / MinGW or a similar setup working then this setup can work on Windows too! You'll need to install Docker, Make, curl and VSCode yourself.
 
 ### :rocket: Single command setup
@@ -36,24 +38,24 @@ This template is designed to set up a Javascript / Webassembly hybrid project wi
 #### :penguin: Linux (with apt and snap)
 
 ```bash
-# Install docker if it isn't already installed
-curl -fsSL https://get.docker.com -o get-docker.sh \
-    && sudo sh get-docker.sh \
-    && rm get-docker.sh \
+read -p "Enter a name for your new project: " project_name \
     #
-    # Install some utils and VSCode
+    # Install some utils and VSCode via package manager
     && sudo apt-get install make curl \
     && sudo snap install --classic code \
     #
+    # Install docker if it isn't already installed
+    && curl -sS https://get.docker.com | sh \
+    #
     # Install rustup and cargo-generate
-    && curl -sSf https://sh.rustup.rs | sh \
+    && curl -sS https://sh.rustup.rs | sh \
     && cargo install cargo-generate \
     #
     # Create a new project
-    && cargo generate –git https://github.com/Mubbly/wasm-js-template --name new_project_name \
+    && cargo generate –git https://github.com/Mubbly/wasm-js-template --name $project_name \
     #
     # Open the project and setup VSCode
-    && cd new_project_name \
+    && cd $project_name \
     && make dbuild-image \
     && code --install-extension ms-vscode-remote.remote-containers \
     && code .
@@ -62,27 +64,45 @@ curl -fsSL https://get.docker.com -o get-docker.sh \
 #### :apple: MacOS (with brew)
 
 ```bash
-# Install docker if it isn't already installed (https://docs.docker.com/docker-for-mac/install/)
-if [ ! "$(command -v docker)" ]; then
-  sudo curl https://download.docker.com/mac/stable/Docker.dmg >> Docker.dmg \
-    && hdiutil attach Docker.dmg \
-    && cp -r /Volumes/Docker/Docker.app ~/Applications/Docker.app \
-    && rm Docker.dmg \
-    && open -a Docker;
-fi \
-    # Install some utils and VSCode
+read -p "Enter a name for your new project: " project_name \
+    #
+    # Install some utils and VSCode via package manager
     && brew install make curl \
     && brew cask install visual-studio-code \
     #
+    # Install docker if it isn't already installed
+    # Automates the process defined at https://docs.docker.com/docker-for-mac/install/
+    && if [ ! "$(command -v docker)" ]; then
+      sudo curl -sS https://download.docker.com/mac/stable/Docker.dmg > Docker.dmg \
+        && hdiutil attach Docker.dmg \
+        && cp -r /Volumes/Docker/Docker.app ~/Applications/Docker.app \
+        && rm Docker.dmg \
+        && open -a Docker;
+    fi \
+    #
     # Install rustup and cargo-generate
-    && curl -sSf https://sh.rustup.rs | sh \
+    && curl -sS https://sh.rustup.rs | sh \
     && cargo install cargo-generate \
     #
     # Create a new project
-    && cargo generate –git https://github.com/Mubbly/wasm-js-template --name new_project_name \
+    && cargo generate –git https://github.com/Mubbly/wasm-js-template --name $project_name \
     #
     # Open the project and setup VSCode
-    && cd new_project_name \
+    && cd $project_name \
+    && make dbuild-image \
+    && code --install-extension ms-vscode-remote.remote-containers \
+    && code .
+```
+
+#### :penguin: / :apple: If you already have all the dependencies installed
+
+```bash
+read -p "Enter a name for your new project: " project_name \
+    # Create a new project
+    && cargo generate –git https://github.com/Mubbly/wasm-js-template --name $project_name \
+    #
+    # Open the project and setup VSCode
+    && cd $project_name \
     && make dbuild-image \
     && code --install-extension ms-vscode-remote.remote-containers \
     && code .
