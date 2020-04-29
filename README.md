@@ -39,7 +39,7 @@ This template is designed to set up a Javascript / Webassembly hybrid project wi
 # Install docker if it isn't already installed
 curl -fsSL https://get.docker.com -o get-docker.sh \
     && sudo sh get-docker.sh \
-    && rm get-docker.sh
+    && rm get-docker.sh \
     #
     # Install some utils and VSCode
     && sudo apt-get install make curl \
@@ -70,7 +70,6 @@ if [ ! "$(command -v docker)" ]; then
     && rm Docker.dmg \
     && open -a Docker;
 fi \
-    #
     # Install some utils and VSCode
     && brew install make curl \
     && brew cask install visual-studio-code \
