@@ -1,4 +1,4 @@
-FROM {{project-name}}_image
+FROM {{project-name}}-image
 
 # Created based on https://github.com/microsoft/vscode-remote-try-rust
 

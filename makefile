@@ -37,32 +37,32 @@ clean: ## Clean up all the installed dependancies and build artifacts
 	@rm -rf rust/Cargo.lock
 
 dshell: ## Open a shell session inside the projects docker container
-	@docker exec -it {{crate_name}}_container bash
+	@docker exec -it {{project-name}}-container bash
 
 dclean: ## Remove projects docker container and image
-	@docker stop {{crate_name}}_container
-	@docker rm {{crate_name}}_container
-	@docker rmi -f {{crate_name}}_image
+	@docker stop {{project-name}}-container
+	@docker rm {{project-name}}-container
+	@docker rmi -f {{project-name}}-image
 
 dbuild-image: ## Build projects docker image
-	@docker build --tag {{crate_name}}_image .
+	@docker build --tag {{project-name}}-image .
 
 dcreate-container: ## Create projects docker container
 	@docker create \
-	--name {{crate_name}}_container \
+	--name {{project-name}}-container \
 	--volume $(shell pwd):/app_src_volume \
 	--publish 8080:8080/tcp \
-	{{crate_name}}_image
+	{{project-name}}-image
 
 dstart-container: ## Start projects docker container
-	@docker start {{crate_name}}_container
+	@docker start {{project-name}}-container
 
 dsetup: ## Setup project inside docker from scratch
 	@make dbuild-image && make dcreate-container && make dstart-container
 
 # Usage: make indock cmd=build
 indock: ## Run a make command inside docker, example usage: make indock cmd=build
-	@docker exec {{crate_name}}_container make $(cmd)
+	@docker exec {{project-name}}-container make $(cmd)
 
 # Source: https://marmelab.com/blog/2016/02/29/auto-documented-makefile.html
 help: ## Show this help message
