@@ -52,7 +52,7 @@ read -p "Enter a name for your new project: " project_name \
     && cargo install cargo-generate \
     #
     # Create a new project
-    && cargo generate –git https://github.com/Mubbly/wasm-js-template --name $project_name \
+    && cargo generate --git https://github.com/Mubbly/wasm-js-template --name $project_name \
     #
     # Open the project and setup VSCode
     && cd $project_name \
@@ -85,7 +85,7 @@ read -p "Enter a name for your new project: " project_name \
     && cargo install cargo-generate \
     #
     # Create a new project
-    && cargo generate –git https://github.com/Mubbly/wasm-js-template --name $project_name \
+    && cargo generate --git https://github.com/Mubbly/wasm-js-template --name $project_name \
     #
     # Open the project and setup VSCode
     && cd $project_name \
@@ -99,7 +99,7 @@ read -p "Enter a name for your new project: " project_name \
 ```bash
 read -p "Enter a name for your new project: " project_name \
     # Create a new project
-    && cargo generate –git https://github.com/Mubbly/wasm-js-template --name $project_name \
+    && cargo generate --git https://github.com/Mubbly/wasm-js-template --name $project_name \
     #
     # Open the project and setup VSCode
     && cd $project_name \
