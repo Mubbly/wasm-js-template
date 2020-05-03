@@ -1,2 +1,0 @@
-[template]
-exclude = [".github/workflows/template_ci.yml", "Dockerfile.test_rust_env_setup", "LICENCE-MIT"]
