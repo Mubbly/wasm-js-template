@@ -38,74 +38,92 @@ A [single command](https://github.com/Mubbly/wasm-js-template#rocket-single-comm
 #### :penguin: Linux (with apt and snap)
 
 ```bash
-read -p "Enter a name for your new project: " project_name \
-    #
-    # Install some utils and VSCode via package manager
-    && sudo apt-get install make curl \
-    && sudo snap install --classic code \
-    #
-    # Install docker if it isn't already installed
-    && curl -sS https://get.docker.com | sh \
-    #
-    # Install rustup and cargo-generate
-    && curl -sS https://sh.rustup.rs | sh \
-    && cargo install cargo-generate \
-    #
-    # Create a new project
-    && cargo generate --git https://github.com/Mubbly/wasm-js-template --name $project_name \
-    #
-    # Open the project and setup VSCode
-    && cd $project_name \
-    && make dbuild-image \
-    && code --install-extension ms-vscode-remote.remote-containers \
-    && code .
+read -p "Enter a name for your new project: " project_name && 
+    [[ ! $project_name =~ ^[a-z0-9-]*$ ]] &&
+    echo "Project name is not kebab case" ||
+    (
+        #
+        # Install some utils and VSCode via package manager
+        sudo apt-get install make curl libssl-dev pkg-config &&
+        sudo snap install --classic code &&
+        #
+        # Install rustup and cargo-generate
+        curl -S https://sh.rustup.rs | sh &&
+        source $HOME/.cargo/env &&
+        cargo install cargo-generate &&
+        #
+        # Install docker if it isn't already installed
+        curl -S https://get.docker.com | sh &&
+        sudo usermod -aG docker $USER &&
+        newgrp docker << SUBSHELL
+        #
+        # Create a new project
+        cargo generate --git https://github.com/Mubbly/wasm-js-template --name $project_name &&
+        #
+        # Open the project and setup VSCode
+        cd $project_name &&
+        make dbuild-image &&
+        code --install-extension ms-vscode-remote.remote-containers &&
+        code .
+SUBSHELL
+    )
 ```
 
 #### :apple: MacOS (with brew)
 
 ```bash
-read -p "Enter a name for your new project: " project_name \
-    #
-    # Install some utils and VSCode via package manager
-    && brew install make curl \
-    && brew cask install visual-studio-code \
-    #
-    # Install docker if it isn't already installed
-    # Automates the process defined at https://docs.docker.com/docker-for-mac/install/
-    && if [ ! "$(command -v docker)" ]; then
-      sudo curl -sS https://download.docker.com/mac/stable/Docker.dmg > Docker.dmg \
-        && hdiutil attach Docker.dmg \
-        && cp -r /Volumes/Docker/Docker.app ~/Applications/Docker.app \
-        && rm Docker.dmg \
-        && open -a Docker;
-    fi \
-    #
-    # Install rustup and cargo-generate
-    && curl -sS https://sh.rustup.rs | sh \
-    && cargo install cargo-generate \
-    #
-    # Create a new project
-    && cargo generate --git https://github.com/Mubbly/wasm-js-template --name $project_name \
-    #
-    # Open the project and setup VSCode
-    && cd $project_name \
-    && make dbuild-image \
-    && code --install-extension ms-vscode-remote.remote-containers \
-    && code .
+read -p "Enter a name for your new project (kebab-case): " project_name && 
+    [[ ! $project_name =~ ^[a-z0-9-]*$ ]] &&
+    echo "Project name is not kebab case" ||
+    (
+        #
+        # Install some utils and VSCode via package manager
+        brew install make curl openssl pkg-config &&
+        brew cask install visual-studio-code &&
+        #
+        # Install docker if it isn't already installed
+        # Automates the process defined at https://docs.docker.com/docker-for-mac/install/
+        if [ ! "$(command -v docker)" ]; then
+        sudo curl -S https://download.docker.com/mac/stable/Docker.dmg > Docker.dmg &&
+            hdiutil attach Docker.dmg &&
+            cp -r /Volumes/Docker/Docker.app ~/Applications/Docker.app &&
+            rm Docker.dmg &&
+            open -a Docker;
+        fi &&
+        #
+        # Install rustup and cargo-generate
+        curl -S https://sh.rustup.rs | sh &&
+        source $HOME/.cargo/env &&
+        cargo install cargo-generate &&
+        #
+        # Create a new project
+        cargo generate --git https://github.com/Mubbly/wasm-js-template --name $project_name &&
+        #
+        # Open the project and setup VSCode
+        cd $project_name &&
+        make dbuild-image &&
+        code --install-extension ms-vscode-remote.remote-containers &&
+        code .
+    )
 ```
 
 #### :penguin: / :apple: If you already have all the dependencies installed
 
 ```bash
-read -p "Enter a name for your new project: " project_name \
-    # Create a new project
-    && cargo generate --git https://github.com/Mubbly/wasm-js-template --name $project_name \
-    #
-    # Open the project and setup VSCode
-    && cd $project_name \
-    && make dbuild-image \
-    && code --install-extension ms-vscode-remote.remote-containers \
-    && code .
+read -p "Enter a name for your new project (kebab-case): " project_name && 
+    [[ ! $project_name =~ ^[a-z0-9-]*$ ]] &&
+    echo "Project name is not kebab case" ||
+    (
+        #
+        # Create a new project
+        cargo generate --git https://github.com/Mubbly/wasm-js-template --name $project_name &&
+        #
+        # Open the project and setup VSCode
+        cd $project_name &&
+        make dbuild-image &&
+        code --install-extension ms-vscode-remote.remote-containers &&
+        code .
+    )
 ```
 
 #### :checkered_flag: End result
