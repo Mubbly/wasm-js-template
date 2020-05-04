@@ -1,3 +1,4 @@
 LICENCE-MIT
+demo.gif
 .github/workflows/template_ci.yml
 Dockerfile.test_rust_env_setup

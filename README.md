@@ -27,6 +27,8 @@ This template is designed to set up a Javascript / Webassembly hybrid project wi
 
 :page_with_curl: NOTE: See the "Customizing your project" section about not using some of these tools.
 
+![demo](demo.gif)
+
 ## 🚴 Usage
 
 A [single command](https://github.com/Mubbly/wasm-js-template#rocket-single-command-setup) installs all necessary dependencies if they're not already installed and generates a new ready-to-use project (or if you've already done it once, [just generate a new project](https://github.com/Mubbly/wasm-js-template#penguin--apple-if-you-already-have-all-the-dependencies-installed))
