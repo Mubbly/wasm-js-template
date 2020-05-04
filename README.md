@@ -40,9 +40,9 @@ A [single command](https://github.com/Mubbly/wasm-js-template#rocket-single-comm
 #### :penguin: Linux (with apt and snap)
 
 ```bash
-read -p "Enter a name for your new project: " project_name && 
+read -p "Enter a name for your new project (kebab-case): " project_name && 
     [[ ! $project_name =~ ^[a-z0-9-]*$ ]] &&
-    echo "Project name is not kebab case" ||
+    echo "Project name is not kebab-case" ||
     (
         #
         # Install some utils and VSCode via package manager
@@ -76,7 +76,7 @@ SUBSHELL
 ```bash
 read -p "Enter a name for your new project (kebab-case): " project_name && 
     [[ ! $project_name =~ ^[a-z0-9-]*$ ]] &&
-    echo "Project name is not kebab case" ||
+    echo "Project name is not kebab-case" ||
     (
         #
         # Install some utils and VSCode via package manager
@@ -114,7 +114,7 @@ read -p "Enter a name for your new project (kebab-case): " project_name &&
 ```bash
 read -p "Enter a name for your new project (kebab-case): " project_name && 
     [[ ! $project_name =~ ^[a-z0-9-]*$ ]] &&
-    echo "Project name is not kebab case" ||
+    echo "Project name is not kebab-case" ||
     (
         #
         # Create a new project
