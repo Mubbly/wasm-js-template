@@ -27,6 +27,8 @@ This template is designed to set up a Javascript / Webassembly hybrid project wi
 
 :page_with_curl: NOTE: See the "Customizing your project" section about not using some of these tools.
 
+:page_with_curl: NOTE2: This solution was created as the practical part of the author's Bachelor's thesis, therefore all the technologies chosen were considered to be the optimal ones for the context based on research and analysis.
+
 ![demo](demo.gif)
 
 ## 🚴 Usage
